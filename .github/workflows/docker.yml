@@ -49,18 +49,4 @@ jobs:
           cache-to: type=gha,mode=min,scope=python-poetry-${{ env.PLATFORM_TUPLE }}
           labels: ${{ steps.meta.outputs.labels }}
           outputs: type=image,name=${{ env.BASE_IMG }},push-by-digest=true,name-canonical=true
-
-      - name: Export digests
-        env:
-          digest: ${{ steps.build.outputs.digest }}
-        run: |
-          mkdir -p /tmp/digests
-          touch "/tmp/digests/${digest#sha256:}"
-
-      - name: Upload digests
-        uses: actions/upload-artifact@v4
-        with:
-          name: digests-${{ env.PLATFORM_TUPLE }}
-          path: /tmp/digests/*
-          if-no-files-found: error
-          retention-days: 1
+          push: true
